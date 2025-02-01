@@ -7,8 +7,7 @@ import javax.jms.*;
 
 public class DoctorConsumer {
     public static void main(String[] args) throws Exception {
-        ConnectionFactory factory = JMSConnectionFactory.getConnectionFactory();
-        Connection connection = factory.createConnection();
+        Connection connection = JMSConnectionFactory.createConnection();
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         Queue queue = session.createQueue("DoctorAssignmentQueue");

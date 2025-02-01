@@ -6,14 +6,14 @@ import javax.jms.*;
 
 public class AlertConsumer implements MessageListener {
     private final String name;
+    private static final int LISTENER_DELAY = 60_000;
 
     public AlertConsumer(String name) {
         this.name = name;
     }
 
     public static void main(String[] args) throws Exception {
-        ConnectionFactory factory = JMSConnectionFactory.getConnectionFactory();
-        Connection connection = factory.createConnection();
+        Connection connection = JMSConnectionFactory.createConnection();
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         Topic topic = session.createTopic("EmergencyAlerts");
@@ -25,7 +25,7 @@ public class AlertConsumer implements MessageListener {
         nurse.setMessageListener(new AlertConsumer("Nurse"));
 
         connection.start();
-        Thread.sleep(2000);
+        Thread.sleep(LISTENER_DELAY);
 
         session.close();
         connection.close();

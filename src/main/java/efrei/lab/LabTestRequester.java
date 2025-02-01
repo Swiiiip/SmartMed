@@ -1,14 +1,12 @@
 package efrei.lab;
 
 import efrei.utils.JMSConnectionFactory;
-import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
 public class LabTestRequester {
     public static void main(String[] args) throws Exception {
-        ConnectionFactory factory = JMSConnectionFactory.getConnectionFactory();
-        Connection connection = factory.createConnection();
+        Connection connection = JMSConnectionFactory.createConnection();
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         Queue requestQueue = session.createQueue("LabRequestQueue");
@@ -19,9 +17,11 @@ public class LabTestRequester {
 
         connection.start();
 
-        TextMessage requestMessage = session.createTextMessage("Blood Test for Patient #7");
-        requestMessage.setJMSReplyTo(replyQueue);
-        producer.send(requestMessage);
+        for (int i = 1; i <= 3; i++) {
+            TextMessage requestMessage = session.createTextMessage("Blood Test for Patient #" + i);
+            requestMessage.setJMSReplyTo(replyQueue);
+            producer.send(requestMessage);
+        }
 
         Message response = consumer.receive();
         if (response instanceof TextMessage) {

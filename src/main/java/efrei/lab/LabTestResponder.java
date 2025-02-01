@@ -1,14 +1,12 @@
 package efrei.lab;
 
 import efrei.utils.JMSConnectionFactory;
-import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
 public class LabTestResponder {
     public static void main(String[] args) throws Exception {
-        ConnectionFactory factory = JMSConnectionFactory.getConnectionFactory();
-        Connection connection = factory.createConnection();
+        Connection connection = JMSConnectionFactory.createConnection();
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         Queue requestQueue = session.createQueue("LabRequestQueue");

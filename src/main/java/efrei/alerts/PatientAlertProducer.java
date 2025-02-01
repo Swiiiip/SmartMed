@@ -6,8 +6,7 @@ import efrei.utils.JMSConnectionFactory;
 
 public class PatientAlertProducer {
     public static void main(String[] args) throws Exception {
-        ConnectionFactory factory = JMSConnectionFactory.getConnectionFactory();
-        Connection connection = factory.createConnection();
+        Connection connection = JMSConnectionFactory.createConnection();
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         Topic topic = session.createTopic("EmergencyAlerts");
